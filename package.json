@@ -1,0 +1,61 @@
+{
+  "name": "squasher",
+  "version": "0.1.0",
+  "description": "Simple HTTP endpoint to squash images - designed to run as a Docker container, but can run standalone",
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "node lib/server.js",
+    "clean": "rimraf lib && mkdir lib",
+    "build-server": "babel -d ./lib ./src",
+    "build": "npm run clean && npm run build-server",
+    "watch": "nodemon -w src/ --exec \"babel-node src/server.js\"",
+    "prepare": "npm run build && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abstractvector/squasher.git"
+  },
+  "keywords": [
+    "image",
+    "optimizer",
+    "api",
+    "http",
+    "jpeg",
+    "webp",
+    "compression"
+  ],
+  "author": "Matt Knight <matthew.knight@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abstractvector/squasher/issues"
+  },
+  "homepage": "https://github.com/abstractvector/squasher#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "nodemon": "^1.14.12",
+    "rimraf": "^2.6.2"
+  },
+  "dependencies": {
+    "koa": "^2.4.1",
+    "koa-router": "^7.4.0",
+    "raw-body": "^2.3.2",
+    "sharp": "^0.19.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "7.0.0"
+          }
+        }
+      ]
+    ]
+  },
+  "engines": {
+    "node": ">= 7"
+  }
+}
