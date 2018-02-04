@@ -1,49 +1,70 @@
+import fs from 'fs';
+import path from 'path';
+
 import Koa from 'koa';
 import KoaRouter from 'koa-router';
 import raw from 'raw-body';
 
 import Image from './image';
+import parseContext from './parser';
+import { basename } from 'path';
 
 const app = new Koa();
-
 const router = new KoaRouter();
+
+const basePath = process.env.SQUASHER_BASE_PATH || process.cwd();
+const allowedFileExtensions = ['.gif', '.jpg', '.jpeg', '.png'];
 
 // entry point to the image optimizer
 router.post('*', async (ctx, next) => {
   const image = new Image(await raw(ctx.req));
 
-  // parse out which processes we want to apply to the image
-  const processes = ctx.request.url.split('/').filter(v => !!v).map(v => {
-    const p = v.match(/([a-z]+)=(.+)/);
-    const process = p[1];
+  let { processes, options } = parseContext(ctx);
 
-    let o, options = {};
-    switch (process) {
-      case 'size':
-        o = p[2].split('x');
-        options = { width: parseInt(o[0]) || null, height: parseInt(o[1]) || null };
-        break;
+  let processedImage = await image.process(processes, options);
 
-      case 'crop':
-        options = { gravity: p[2] || null };
-        break;
+  ctx.status = 200;
+  ctx.type = `image/${processedImage.format}`;
+  ctx.body = processedImage.buffer;
+});
 
-      default:
-        return null;
-    }
+router.get('*', async (ctx, next) => {
+  const qs = ctx.request.query;
 
-    return { process, options }
-  }).filter(v => !!v);
+  if (!qs.file) {
+    ctx.status = 404;
+    ctx.body = 'Parameter [file] must be specified in the URL query string';
+    return;
+  }
 
-  // process the image
-  const processedImage = await image.process(processes, {
-    supportedTypes: [
-      ctx.accepts('image/jpeg') ? 'jpeg' : null,
-      ctx.accepts('image/png') ? 'png' : null,
-      ctx.request.header.accept.indexOf('image/webp') > -1 ? 'webp' : null
-    ].filter(v => null !== v)
-  });
+  const imagePath = path.join(basePath, qs.file);
 
+  // check the file is in a valid location
+  if (imagePath.indexOf(basePath) !== 0) {
+    ctx.status = 403;
+    ctx.body = 'File outside of allowed base path';
+    return;
+  }
+
+  // check the file is of a valid type
+  if (allowedFileExtensions.indexOf(path.extname(imagePath)) < 0) {
+    ctx.status = 400;
+    ctx.body = `File type not in allowed list: ${allowedFileExtensions.join(', ')}`;
+    return;    
+  }
+
+  // check the file exists
+  if (!fs.existsSync(imagePath)) {
+    ctx.status = 404;
+    ctx.body = 'File  not found';
+    return;    
+  }
+
+  const image = new Image(imagePath);
+
+  let { processes, options } = parseContext(ctx);
+
+  let processedImage = await image.process(processes, options);
 
   ctx.status = 200;
   ctx.type = `image/${processedImage.format}`;
