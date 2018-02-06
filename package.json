@@ -1,6 +1,6 @@
 {
   "name": "squasher",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Simple HTTP endpoint to squash images - designed to run as a Docker container, but can run standalone",
   "main": "lib/index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "build-server": "babel -d ./lib ./src",
     "build": "npm run clean && npm run build-server",
     "watch": "nodemon -w src/ --exec \"babel-node src/server.js\"",
-    "prepare": "npm run build && npm test"
+    "prepare": "npm run build && npm test",
+    "test": "echo"
   },
   "repository": {
     "type": "git",
