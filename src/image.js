@@ -16,7 +16,18 @@ class Image {
     });
 
     const result = (await Promise.all(options.supportedTypes.map(async f => {
-      const c = clone.clone().toFormat(f);
+      let opts = {};
+
+      if ('jpeg' === f) {
+        opts.quality = 80;
+        opts.progressive = true;
+      }
+
+      if ('png' === f) {
+        opts.progressive = true;
+      }
+      
+      const c = clone.clone().toFormat(f, opts);
       const b = await new Promise((resolve, reject) => {
           c.toBuffer((err, data, info) => {
             if (err) { return reject(err); }

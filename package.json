@@ -1,6 +1,6 @@
 {
   "name": "squasher",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Simple HTTP endpoint to squash images - designed to run as a Docker container, but can run standalone",
   "main": "lib/index.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
-    "koa": "^2.4.1",
+    "koa": "^2.5.0",
     "koa-router": "^7.4.0",
     "raw-body": "^2.3.2",
     "sharp": "^0.19.0"
