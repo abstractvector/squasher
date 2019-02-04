@@ -19,7 +19,7 @@ class Image {
       let opts = {};
 
       if ('jpeg' === f) {
-        opts.quality = 80;
+        opts.quality = 90;
         opts.progressive = true;
       }
 
