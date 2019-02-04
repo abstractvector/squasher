@@ -19,12 +19,17 @@ class Image {
       let opts = {};
 
       if ('jpeg' === f) {
-        opts.quality = 90;
+        opts.optimiseCoding = true;
+        opts.quality = 95;
         opts.progressive = true;
       }
 
       if ('png' === f) {
         opts.progressive = true;
+      }
+
+      if ('webp' === f) {
+        opts.quality = 95;
       }
       
       const c = clone.clone().toFormat(f, opts);
