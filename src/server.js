@@ -6,8 +6,8 @@ import KoaRouter from 'koa-router';
 import raw from 'raw-body';
 
 import Image from './image';
+import imageSize from 'image-size';
 import parseContext from './parser';
-import { basename } from 'path';
 
 const app = new Koa();
 const router = new KoaRouter();
@@ -69,6 +69,16 @@ router.get('*', async (ctx, next) => {
   ctx.status = 200;
   ctx.type = `image/${processedImage.format}`;
   ctx.body = processedImage.buffer;
+  
+  try {
+    const size = imageSize(processedImage.buffer);
+    ctx.set({
+      'X-Image-Width': size.width,
+      'X-Image-Height': size.height
+    });
+  } catch (e) {
+    console.log(`Could not set width and height headers: ${e}`);
+  }
 });
 
 app.use(router.routes());

@@ -33,16 +33,17 @@
   "homepage": "https://github.com/abstractvector/squasher#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "nodemon": "^1.14.12",
-    "rimraf": "^2.6.2"
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^1.18.10",
+    "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "koa": "^2.5.0",
+    "image-size": "^0.7.2",
+    "koa": "^2.7.0",
     "koa-router": "^7.4.0",
-    "raw-body": "^2.3.2",
-    "sharp": "^0.19.0"
+    "raw-body": "^2.3.3",
+    "sharp": "^0.21.3"
   },
   "babel": {
     "presets": [
