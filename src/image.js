@@ -20,7 +20,7 @@ class Image {
 
       if ('jpeg' === f) {
         opts.optimiseCoding = true;
-        opts.quality = 95;
+        opts.quality = 90;
         opts.progressive = true;
       }
 

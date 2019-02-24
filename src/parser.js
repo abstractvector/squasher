@@ -30,7 +30,7 @@ const parseContext = (ctx) => {
     supportedTypes: [
       ctx.accepts('image/jpeg') ? 'jpeg' : null,
       ctx.accepts('image/png') ? 'png' : null,
-      ctx.request.header.accept.indexOf('image/webp') > -1 ? 'webp' : null
+      //ctx.request.header.accept.indexOf('image/webp') > -1 ? 'webp' : null
     ].filter(v => null !== v)
   }
 
