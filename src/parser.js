@@ -34,6 +34,10 @@ const parseContext = (ctx) => {
     ].filter(v => null !== v)
   }
 
+  if (options.supportedTypes.length === 0) {
+    options.supportedTypes.push('jpeg');
+  }
+
   return { processes, options };
 }
 
