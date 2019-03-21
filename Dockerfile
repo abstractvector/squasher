@@ -1,5 +1,4 @@
-# Docker container to run the build scripts
-FROM node:9.4 as builder
+FROM node:latest
 
 WORKDIR /usr/src
 
@@ -7,7 +6,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY src/ src/
 
 RUN npm run build
 
