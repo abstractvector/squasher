@@ -20,7 +20,7 @@ class Image {
 
       if ('jpeg' === f) {
         opts.optimiseCoding = true;
-        opts.quality = 90;
+        opts.quality = 80;
         opts.progressive = true;
       }
 
@@ -29,9 +29,9 @@ class Image {
       }
 
       if ('webp' === f) {
-        opts.quality = 95;
+        opts.quality = 80;
       }
-      
+
       const c = clone.clone().toFormat(f, opts);
       const b = await new Promise((resolve, reject) => {
           c.toBuffer((err, data, info) => {
